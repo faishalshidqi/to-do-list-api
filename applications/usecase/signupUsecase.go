@@ -23,16 +23,6 @@ func (su *signupUsecase) GetUserByEmail(c context.Context, email string) (*domai
 	return su.userRepository.GetByEmail(ctx, email)
 }
 
-func (su *signupUsecase) CreateAccessToken(user *domains.User, secret string, expiry int) (string, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (su *signupUsecase) CreateRefreshToken(user *domains.User, secret string, expiry int) (string, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
 func NewSignupUsecase(userRepository domains.UserRepository, timeout time.Duration) domains.UserSignUpUsecase {
 	return &signupUsecase{
 		userRepository: userRepository,
