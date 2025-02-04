@@ -21,7 +21,6 @@ paths:
     post:
       consumes:
       - application/json
-      - multipart/form-data
       description: New user must have a unique email address
       parameters:
       - description: email address of the new user, must be unique
