@@ -22,3 +22,9 @@ type RefreshAuthnUsecase interface {
 	CreateRefreshToken(user User, secret string, expiry int) (refreshToken string, err error)
 	ExtractIDFromToken(token string, secret string) (string, error)
 }
+
+type RefreshAuthenticationRepository interface {
+	Add(c context.Context, token string) error
+	Fetch(c context.Context, token string) (string, error)
+	DeleteToken(c context.Context, token string) error
+}
