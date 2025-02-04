@@ -17,6 +17,47 @@ info:
   title: To-Do List API
   version: "1.0"
 paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: authenticate user
+      parameters:
+      - description: email address of the user
+        format: email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: password of the user
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domains.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Login with Email & Password
+      tags:
+      - authentication
   /api/auth/register:
     post:
       consumes:
