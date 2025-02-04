@@ -6,6 +6,7 @@ import (
 )
 
 type Env struct {
+	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
 	MongoURI       string `mapstructure:"MONGO_URI"`
 	MongoDB        string `mapstructure:"MONGO_DB"`
 	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
