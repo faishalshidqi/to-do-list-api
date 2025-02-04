@@ -1,16 +1,22 @@
 package domains
 
-import "context"
+import (
+	"context"
+)
 
 type LoginRequest struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
 
+type LoginResponseData struct {
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+}
+
 type LoginResponse struct {
-	Message      string `json:"message"`
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
+	Message string            `json:"message"`
+	Data    LoginResponseData `json:"data"`
 }
 
 type LoginUsecase interface {
