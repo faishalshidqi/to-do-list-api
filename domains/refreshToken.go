@@ -6,9 +6,14 @@ type RefreshAuthnRequest struct {
 	RefreshToken string `json:"refreshToken"`
 }
 
-type RefreshAuthnResponse struct {
+type RefreshAuthnData struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
+}
+
+type RefreshAuthnResponse struct {
+	Message string           `json:"message"`
+	Data    RefreshAuthnData `json:"data"`
 }
 
 type RefreshAuthnUsecase interface {
