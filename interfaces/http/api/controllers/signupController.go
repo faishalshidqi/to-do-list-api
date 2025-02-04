@@ -51,7 +51,7 @@ func (sc *SignupController) Signup(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "User created successfully",
+	c.JSON(http.StatusCreated, domains.SuccessResponse{
+		Message: "User created successfully",
 	})
 }
