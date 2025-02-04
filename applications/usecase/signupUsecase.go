@@ -17,7 +17,7 @@ func (su *signupUsecase) Create(c context.Context, user *domains.User) error {
 	return su.userRepository.Add(ctx, user)
 }
 
-func (su *signupUsecase) GetUserByEmail(c context.Context, email string) (*domains.User, error) {
+func (su *signupUsecase) GetUserByEmail(c context.Context, email string) (domains.User, error) {
 	ctx, cancel := context.WithTimeout(c, su.contextTimeout)
 	defer cancel()
 	return su.userRepository.GetByEmail(ctx, email)

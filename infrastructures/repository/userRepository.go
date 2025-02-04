@@ -4,9 +4,9 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"todo-list-api/domains"
+	"todo-list-api/infrastructures/mongo"
 )
 
 type userRepository struct {
