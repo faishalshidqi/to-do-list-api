@@ -29,17 +29,17 @@ func (lc *LoginController) Login(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{Message: "Invalid credentials"})
 		return
 	}
-	accessToken, err := lc.LoginUsecase.CreateAccessToken(&user, lc.Env.AccessTokenKey, int(lc.Env.AccessTokenExpirationInHour))
+	accessToken, err := lc.LoginUsecase.CreateAccessToken(&user, lc.Env.AccessTokenKey, lc.Env.AccessTokenExpirationInHour)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{Message: err.Error()})
 		return
 	}
-	refreshToken, err := lc.LoginUsecase.CreateRefreshToken(&user, lc.Env.RefreshTokenKey, int(lc.Env.RefreshTokenExpirationInHour))
+	refreshToken, err := lc.LoginUsecase.CreateRefreshToken(&user, lc.Env.RefreshTokenKey, lc.Env.RefreshTokenExpirationInHour)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{Message: err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, domains.LoginResponse{
+	c.JSON(http.StatusCreated, domains.LoginResponse{
 		Message:      "Successfully logged in",
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
