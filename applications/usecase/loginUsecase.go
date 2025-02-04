@@ -19,11 +19,11 @@ func (lu loginUsecase) GetUserByEmail(c context.Context, email string) (domains.
 }
 
 func (lu loginUsecase) CreateAccessToken(user *domains.User, secret string, expiry int) (accessToken string, err error) {
-	return tokenize.MakeJWT(*user, secret, time.Duration(expiry))
+	return tokenize.MakeJWT(*user, secret, time.Duration(expiry)*time.Hour)
 }
 
 func (lu loginUsecase) CreateRefreshToken(user *domains.User, secret string, expiry int) (refreshToken string, err error) {
-	return tokenize.MakeJWT(*user, secret, time.Duration(expiry))
+	return tokenize.MakeJWT(*user, secret, time.Duration(expiry)*time.Hour)
 }
 
 func NewLoginUsecase(userRepository domains.UserRepository, timeout time.Duration) domains.LoginUsecase {
