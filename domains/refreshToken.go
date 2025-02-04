@@ -2,6 +2,10 @@ package domains
 
 import "context"
 
+const (
+	RefreshTokenCollectionName = "refresh-token"
+)
+
 type RefreshAuthnRequest struct {
 	RefreshToken string `json:"refreshToken"`
 }
