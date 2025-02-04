@@ -40,8 +40,10 @@ func (lc *LoginController) Login(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusCreated, domains.LoginResponse{
-		Message:      "Successfully logged in",
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
+		Message: "Successfully logged in",
+		Data: domains.LoginResponseData{
+			AccessToken:  accessToken,
+			RefreshToken: refreshToken,
+		},
 	})
 }
