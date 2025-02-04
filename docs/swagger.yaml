@@ -5,6 +5,20 @@ definitions:
       message:
         type: string
     type: object
+  domains.LoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/domains.LoginResponseData'
+      message:
+        type: string
+    type: object
+  domains.LoginResponseData:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
   domains.SuccessResponse:
     properties:
       message:
@@ -42,7 +56,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/domains.SuccessResponse'
+            $ref: '#/definitions/domains.LoginResponse'
         "400":
           description: Bad Request
           schema:

@@ -22,7 +22,7 @@ type LoginController struct {
 //	@Produce		json
 //	@Param			email		body		string	true	"email address of the user"	Format(email)
 //	@Param			password	body		string	true	"password of the user"
-//	@Success		201			{object}	domains.SuccessResponse
+//	@Success		201			{object}	domains.LoginResponse
 //	@Failure		400			{object}	domains.ErrorResponse
 //	@Failure		401			{object}	domains.ErrorResponse
 //	@Failure		500			{object}	domains.ErrorResponse
