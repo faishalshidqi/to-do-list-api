@@ -21,7 +21,7 @@ func (lc *LoginController) Login(c *gin.Context) {
 	}
 	user, err := lc.LoginUsecase.GetUserByEmail(c, loginRequest.Email)
 	if err != nil {
-		c.JSON(http.StatusNotFound, domains.ErrorResponse{Message: err.Error()})
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{Message: err.Error()})
 		return
 	}
 	err = tokenize.CheckPasswordHash(loginRequest.Password, user.Password)
