@@ -3,15 +3,18 @@ package bootstrap
 import (
 	"github.com/spf13/viper"
 	"log"
+	"time"
 )
 
 type Env struct {
-	ServerAddress   string `mapstructure:"SERVER_ADDRESS"`
-	MongoURI        string `mapstructure:"MONGO_URI"`
-	MongoDB         string `mapstructure:"MONGO_DB"`
-	ContextTimeout  int    `mapstructure:"CONTEXT_TIMEOUT"`
-	AccessTokenKey  string `mapstructure:"ACCESS_TOKEN_KEY"`
-	RefreshTokenKey string `mapstructure:"REFRESH_TOKEN_KEY"`
+	ServerAddress                string        `mapstructure:"SERVER_ADDRESS"`
+	MongoURI                     string        `mapstructure:"MONGO_URI"`
+	MongoDB                      string        `mapstructure:"MONGO_DB"`
+	ContextTimeout               int           `mapstructure:"CONTEXT_TIMEOUT"`
+	AccessTokenKey               string        `mapstructure:"ACCESS_TOKEN_KEY"`
+	RefreshTokenKey              string        `mapstructure:"REFRESH_TOKEN_KEY"`
+	AccessTokenExpirationInHour  time.Duration `mapstructure:"ACCESS_TOKEN_EXPIRATION_IN_HOUR"`
+	RefreshTokenExpirationInHour time.Duration `mapstructure:"REFRESH_TOKEN_EXPIRATION_IN_HOUR"`
 }
 
 func NewEnv() *Env {
