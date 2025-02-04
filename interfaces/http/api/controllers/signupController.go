@@ -20,7 +20,7 @@ type SignupController struct {
 //	@Summary		Register A User
 //	@Description	New user must have a unique email address
 //	@Tags			users
-//	@Accept			json,multipart/form-data
+//	@Accept			json
 //	@Produce		json
 //	@Param			email		body		string	true	"email address of the new user, must be unique"	Format(email)
 //	@Param			password	body		string	true	"password of the new user"
@@ -53,7 +53,7 @@ func (sc *SignupController) Signup(c *gin.Context) {
 	user := domains.User{
 		ID:        primitive.NewObjectID(),
 		Email:     request.Email,
-		Password:  string(encryptedPassword),
+		Password:  encryptedPassword,
 		Name:      request.Name,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
