@@ -6,8 +6,9 @@ import (
 )
 
 type Env struct {
-	MongoURI string `mapstructure:"MONGO_URI"`
-	MongoDB  string `mapstructure:"MONGO_DB"`
+	MongoURI       string `mapstructure:"MONGO_URI"`
+	MongoDB        string `mapstructure:"MONGO_DB"`
+	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
 }
 
 func NewEnv() *Env {
