@@ -44,7 +44,7 @@ func (sc *SignupController) Signup(c *gin.Context) {
 		})
 		return
 	}
-	encryptedPassword, err := commons.HashPassword(request.Password)
+	encryptedPassword, err := tokenize.HashPassword(request.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
 			Message: err.Error(),
