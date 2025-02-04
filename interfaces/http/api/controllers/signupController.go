@@ -3,10 +3,10 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 	"todo-list-api/commons/bootstrap"
+	"todo-list-api/commons/tokenize"
 	"todo-list-api/domains"
 )
 
