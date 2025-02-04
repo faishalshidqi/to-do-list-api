@@ -19,8 +19,7 @@ const docTemplate = `{
             "post": {
                 "description": "New user must have a unique email address",
                 "consumes": [
-                    "application/json",
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
