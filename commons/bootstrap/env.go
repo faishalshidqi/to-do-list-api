@@ -6,10 +6,12 @@ import (
 )
 
 type Env struct {
-	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
-	MongoURI       string `mapstructure:"MONGO_URI"`
-	MongoDB        string `mapstructure:"MONGO_DB"`
-	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
+	ServerAddress   string `mapstructure:"SERVER_ADDRESS"`
+	MongoURI        string `mapstructure:"MONGO_URI"`
+	MongoDB         string `mapstructure:"MONGO_DB"`
+	ContextTimeout  int    `mapstructure:"CONTEXT_TIMEOUT"`
+	AccessTokenKey  string `mapstructure:"ACCESS_TOKEN_KEY"`
+	RefreshTokenKey string `mapstructure:"REFRESH_TOKEN_KEY"`
 }
 
 func NewEnv() *Env {
