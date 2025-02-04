@@ -13,6 +13,20 @@ type LoginController struct {
 	Env          *bootstrap.Env
 }
 
+// Login Log In godoc
+//
+//	@Summary		Login with Email & Password
+//	@Description	authenticate user
+//	@Tags			authentication
+//	@Accept			json
+//	@Produce		json
+//	@Param			email		body		string	true	"email address of the user"	Format(email)
+//	@Param			password	body		string	true	"password of the user"
+//	@Success		201			{object}	domains.SuccessResponse
+//	@Failure		400			{object}	domains.ErrorResponse
+//	@Failure		401			{object}	domains.ErrorResponse
+//	@Failure		500			{object}	domains.ErrorResponse
+//	@Router			/api/auth/login [post]
 func (lc *LoginController) Login(c *gin.Context) {
 	loginRequest := domains.LoginRequest{}
 	if err := c.ShouldBind(&loginRequest); err != nil {

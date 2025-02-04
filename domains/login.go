@@ -9,6 +9,17 @@ type LoginRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
+/*
+24
+
+	7
+
+-- x
+28
+14
+-- +
+168
+*/
 type LoginResponseData struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
