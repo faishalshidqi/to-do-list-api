@@ -1,13 +1,16 @@
 package domains
 
-import "context"
+import (
+	"context"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 const (
 	RefreshTokenCollectionName = "refresh-token"
 )
 
 type RefreshAuthnRequest struct {
-	RefreshToken string `json:"refreshToken"`
+	RefreshToken string `json:"refreshToken" binding:"required"`
 }
 
 type RefreshAuthnData struct {
@@ -21,10 +24,10 @@ type RefreshAuthnResponse struct {
 }
 
 type RefreshAuthnUsecase interface {
-	GetUserByID(c context.Context, id string) (User, error)
+	GetUserByID(c context.Context, id primitive.ObjectID) (User, error)
 	CreateAccessToken(user User, secret string, expiry int) (accessToken string, err error)
 	CreateRefreshToken(user User, secret string, expiry int) (refreshToken string, err error)
-	ExtractIDFromToken(token string, secret string) (string, error)
+	ExtractIDFromToken(token string, secret string) (primitive.ObjectID, error)
 }
 
 type RefreshAuthnRepository interface {

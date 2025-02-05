@@ -1,4 +1,4 @@
-package usecase
+package controllers
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,12 +7,26 @@ import (
 	"todo-list-api/domains"
 )
 
-type refreshAuthnController struct {
+type RefreshAuthnController struct {
 	RefreshAuthnUsecase domains.RefreshAuthnUsecase
+	RefreshAuthnRepo    domains.RefreshAuthnRepository
 	Env                 *bootstrap.Env
 }
 
-func (rc *refreshAuthnController) RefreshToken(c *gin.Context) {
+// RefreshToken Refresh Authentication, generating new access and refresh token godoc
+//
+//	@Summary		Refresh Authentication
+//	@Description	Generating new access token using a refresh token. Only valid refresh token will generate new
+//	@Tags			authentication
+//	@Accept			json
+//	@Produce		json
+//	@Param			refreshToken	body		string	true	"refresh token possessed by the user"
+//	@Success		200				{object}	domains.RefreshAuthnResponse
+//	@Failure		400				{object}	domains.ErrorResponse
+//	@Failure		401				{object}	domains.ErrorResponse
+//	@Failure		500				{object}	domains.ErrorResponse
+//	@Router			/api/auth [put]
+func (rc *RefreshAuthnController) RefreshToken(c *gin.Context) {
 	refreshAuthnRequest := domains.RefreshAuthnRequest{}
 	err := c.ShouldBind(&refreshAuthnRequest)
 	if err != nil {
@@ -23,7 +37,7 @@ func (rc *refreshAuthnController) RefreshToken(c *gin.Context) {
 	}
 	id, err := rc.RefreshAuthnUsecase.ExtractIDFromToken(refreshAuthnRequest.RefreshToken, rc.Env.RefreshTokenKey)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+		c.JSON(http.StatusBadRequest, domains.ErrorResponse{
 			Message: err.Error(),
 		})
 		return
@@ -43,6 +57,13 @@ func (rc *refreshAuthnController) RefreshToken(c *gin.Context) {
 		return
 	}
 	refreshToken, err := rc.RefreshAuthnUsecase.CreateRefreshToken(user, rc.Env.RefreshTokenKey, rc.Env.RefreshTokenExpirationInHour)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	err = rc.RefreshAuthnRepo.Add(c, refreshAuthnRequest)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
 			Message: err.Error(),

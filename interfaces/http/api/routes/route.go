@@ -11,4 +11,5 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	publicRouter := gin.Group("")
 	NewSignupRouter(env, timeout, db, publicRouter)
 	NewLoginRouter(env, timeout, db, publicRouter)
+	NewRefreshAuthnRouter(env, timeout, db, publicRouter)
 }
