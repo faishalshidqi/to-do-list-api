@@ -101,7 +101,7 @@ func ValidateJWT(tokenString, tokenSecret string) (primitive.ObjectID, error) {
 	if claims.ExpiresAt.Before(time.Now()) {
 		return primitive.NilObjectID, errors.New("token expired")
 	}
-	parsedObjectID, err := primitive.ObjectIDFromHex(claims.Issuer)
+	parsedObjectID, err := primitive.ObjectIDFromHex(claims.Subject)
 	if err != nil {
 		return primitive.NilObjectID, err
 	}
