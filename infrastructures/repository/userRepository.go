@@ -45,14 +45,10 @@ func (ur userRepository) GetByEmail(c context.Context, email string) (domains.Us
 	return user, nil
 }
 
-func (ur userRepository) GetByID(c context.Context, id string) (domains.User, error) {
+func (ur userRepository) GetByID(c context.Context, id primitive.ObjectID) (domains.User, error) {
 	collection := ur.database.Collection(ur.collection)
 	user := domains.User{}
-	idInHex, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return domains.User{}, err
-	}
-	err = collection.FindOne(c, bson.M{"_id": idInHex}).Decode(&user)
+	err := collection.FindOne(c, bson.M{"id": id}).Decode(&user)
 	if err != nil {
 		return domains.User{}, err
 	}
