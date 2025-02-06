@@ -1,5 +1,17 @@
 basePath: /
 definitions:
+  domains.AddTaskResponse:
+    properties:
+      data:
+        $ref: '#/definitions/domains.AddTaskResponseData'
+      message:
+        type: string
+    type: object
+  domains.AddTaskResponseData:
+    properties:
+      id:
+        type: string
+    type: object
   domains.ErrorResponse:
     properties:
       message:
@@ -164,6 +176,52 @@ paths:
       summary: Register A User
       tags:
       - users
+  /api/tasks:
+    post:
+      consumes:
+      - application/json
+      description: Add A New Task
+      parameters:
+      - description: task's title
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: task's description
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      - description: whether the task is completed
+        in: body
+        name: isCompleted
+        required: true
+        schema:
+          type: boolean
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domains.AddTaskResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Add A New Task To DB
+      tags:
+      - tasks
 securityDefinitions:
   "":
     in: header
