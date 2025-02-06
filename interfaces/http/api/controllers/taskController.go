@@ -129,3 +129,38 @@ func (tc *TaskController) GetByOwner(c *gin.Context) {
 		Data:    tasks,
 	})
 }
+
+func (tc *TaskController) GetById(c *gin.Context) {
+	token, err := tokenize.GetBearerToken(c.Request.Header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	userId, err := tokenize.ValidateJWT(token, tc.Env.AccessTokenKey)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	id := c.Param("id")
+	task, err := tc.TaskUsecase.FetchById(c, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, domains.ErrorResponse{
+			Message: "Task not found",
+		})
+		return
+	}
+	if userId != task.Owner {
+		c.JSON(http.StatusForbidden, domains.ErrorResponse{
+			Message: "You can't see this task",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domains.GetTaskByIdResponse{
+		Message: "Successfully fetched task",
+		Data:    *task,
+	})
+}
