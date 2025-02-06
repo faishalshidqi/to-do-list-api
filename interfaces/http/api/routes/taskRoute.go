@@ -19,4 +19,5 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 	}
 	group.POST("/api/tasks", taskController.Create)
 	group.GET("/api/tasks", taskController.GetByOwner)
+	group.GET("/api/tasks/:id", taskController.GetById)
 }
