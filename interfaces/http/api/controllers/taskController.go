@@ -23,14 +23,15 @@ type TaskController struct {
 //	@Tags			tasks
 //	@Accept			json
 //	@Produce		json
-//	@Param			title		body		string	true	"task's title"
-//	@Param			password	body		string	true	"task's description"
-//	@Param			isCompleted	body		bool	true	"whether the task is completed"
+//	@Param			Authorization	header		string	true	"Bearer Token"
+//	@Param			title			body		string	true	"task's title"
+//	@Param			password		body		string	true	"task's description"
+//	@Param			isCompleted		body		bool	true	"whether the task is completed"
 //
-//	@Success		201			{object}	domains.AddTaskResponse
-//	@Failure		400			{object}	domains.ErrorResponse
-//	@Failure		401			{object}	domains.ErrorResponse
-//	@Failure		500			{object}	domains.ErrorResponse
+//	@Success		201				{object}	domains.AddTaskResponse
+//	@Failure		400				{object}	domains.ErrorResponse
+//	@Failure		401				{object}	domains.ErrorResponse
+//	@Failure		500				{object}	domains.ErrorResponse
 //	@Router			/api/tasks [post]
 func (tc *TaskController) Create(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
@@ -75,6 +76,23 @@ func (tc *TaskController) Create(c *gin.Context) {
 	})
 }
 
+// GetByOwner GetTasksByOwner godoc
+//
+//	@Summary		Fetch Tasks
+//	@Description	Fetch Tasks By Owner ID. Only valid users may have tasks
+//	@Tags			tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Bearer Token"
+//	@Param			page			body		string	true	"task's title"
+//	@Param			size			body		string	true	"task's description"
+//
+//	@Success		200				{object}	domains.GetTaskResponse
+//	@Failure		400				{object}	domains.ErrorResponse
+//	@Failure		401				{object}	domains.ErrorResponse
+//	@Failure		404				{object}	domains.ErrorResponse
+//	@Failure		500				{object}	domains.ErrorResponse
+//	@Router			/api/tasks [get]
 func (tc *TaskController) GetByOwner(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
 	if err != nil {
