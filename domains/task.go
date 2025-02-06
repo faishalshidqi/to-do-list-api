@@ -40,7 +40,7 @@ type GetTaskResponseData struct {
 
 type TaskRepository interface {
 	Add(c context.Context, task *Task) error
-	FetchByOwner(c context.Context, owner string) ([]Task, error)
+	FetchByOwner(c context.Context, owner primitive.ObjectID, page, size int) ([]Task, error)
 	FetchById(c context.Context, id string) (*Task, error)
 	EditById(c context.Context, id string, task *Task) error
 	DeleteById(c context.Context, id string) error
@@ -50,7 +50,7 @@ type TaskRepository interface {
 
 type TaskUsecase interface {
 	Add(c context.Context, task *Task) error
-	FetchByOwner(c context.Context, owner string) ([]Task, error)
+	FetchByOwner(c context.Context, owner primitive.ObjectID, page, size int) ([]Task, error)
 	FetchById(c context.Context, id string) (*Task, error)
 	EditById(c context.Context, id string, task *Task) error
 	DeleteById(c context.Context, id string) error
