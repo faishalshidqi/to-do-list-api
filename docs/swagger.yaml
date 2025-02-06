@@ -17,6 +17,20 @@ definitions:
       message:
         type: string
     type: object
+  domains.GetTaskResponse:
+    properties:
+      data:
+        $ref: '#/definitions/domains.GetTaskResponseData'
+      message:
+        type: string
+    type: object
+  domains.GetTaskResponseData:
+    properties:
+      tasks:
+        items:
+          $ref: '#/definitions/domains.Task'
+        type: array
+    type: object
   domains.LoginResponse:
     properties:
       data:
@@ -49,6 +63,27 @@ definitions:
     properties:
       message:
         type: string
+    type: object
+  domains.Task:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      isCompleted:
+        default: false
+        type: boolean
+      owner:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - description
+    - title
     type: object
 host: localhost:8080
 info:
@@ -177,11 +212,64 @@ paths:
       tags:
       - users
   /api/tasks:
+    get:
+      consumes:
+      - application/json
+      description: Fetch Tasks By Owner ID. Only valid users may have tasks
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: task's title
+        in: body
+        name: page
+        required: true
+        schema:
+          type: string
+      - description: task's description
+        in: body
+        name: size
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.GetTaskResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Fetch Tasks
+      tags:
+      - tasks
     post:
       consumes:
       - application/json
       description: Add A New Task
       parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: task's title
         in: body
         name: title
