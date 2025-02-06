@@ -11,7 +11,7 @@ const (
 )
 
 type Task struct {
-	ID          primitive.ObjectID `json:"-" bson:"_id"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
 	Title       string             `json:"title" bson:"title" binding:"required"`
 	Description string             `json:"description" bson:"description" binding:"required"`
 	Owner       primitive.ObjectID `json:"owner" bson:"owner"`
