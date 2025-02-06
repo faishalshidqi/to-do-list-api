@@ -34,8 +34,9 @@ type GetTaskResponse struct {
 	Data    []Task `json:"data"`
 }
 
-type GetTaskResponseData struct {
-	Tasks []Task `json:"tasks"`
+type GetTaskByIdResponse struct {
+	Message string `json:"message"`
+	Data    Task   `json:"data"`
 }
 
 type TaskRepository interface {
