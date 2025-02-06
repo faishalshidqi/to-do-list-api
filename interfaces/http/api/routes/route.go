@@ -8,9 +8,11 @@ import (
 )
 
 func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gin.Engine) {
-	publicRouter := gin.Group("")
-	NewSignupRouter(env, timeout, db, publicRouter)
-	NewLoginRouter(env, timeout, db, publicRouter)
-	NewRefreshAuthnRouter(env, timeout, db, publicRouter)
-	//NewLogoutRouter(env, timeout, db, publicRouter)
+	router := gin.Group("")
+	NewSignupRouter(env, timeout, db, router)
+	NewLoginRouter(env, timeout, db, router)
+	NewRefreshAuthnRouter(env, timeout, db, router)
+	//NewLogoutRouter(env, timeout, db, router)
+
+	NewTaskRouter(env, timeout, db, router)
 }
