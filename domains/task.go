@@ -20,13 +20,13 @@ type Task struct {
 	UpdatedAt   time.Time          `json:"updatedAt" bson:"updatedAt"`
 }
 
-type TaskResponseData struct {
+type AddTaskResponseData struct {
 	ID primitive.ObjectID `json:"id" bson:"_id"`
 }
 
-type TaskResponse struct {
-	Message string           `json:"message"`
-	Data    TaskResponseData `json:"data"`
+type AddTaskResponse struct {
+	Message string              `json:"message"`
+	Data    AddTaskResponseData `json:"data"`
 }
 
 type TaskRepository interface {
