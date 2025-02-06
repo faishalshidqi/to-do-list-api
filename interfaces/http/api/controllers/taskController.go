@@ -111,21 +111,7 @@ func (tc *TaskController) GetByOwner(c *gin.Context) {
 
 	page := c.DefaultQuery("page", "0")
 	size := c.DefaultQuery("size", "1")
-	convPage, err := strconv.Atoi(page)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, domains.ErrorResponse{
-			Message: "Invalid page value",
-		})
-		return
-	}
-	convSize, err := strconv.Atoi(size)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, domains.ErrorResponse{
-			Message: "Invalid size value",
-		})
-		return
-	}
-	tasks, err := tc.TaskUsecase.FetchByOwner(c, userId, convPage, convSize)
+	tasks, err := tc.TaskUsecase.FetchByOwner(c, userId.Hex(), page, size)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
 			Message: err.Error(),
