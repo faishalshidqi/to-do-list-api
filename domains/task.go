@@ -30,8 +30,8 @@ type AddTaskResponse struct {
 }
 
 type GetTaskResponse struct {
-	Message string              `json:"message"`
-	Data    GetTaskResponseData `json:"data"`
+	Message string `json:"message"`
+	Data    []Task `json:"data"`
 }
 
 type GetTaskResponseData struct {
