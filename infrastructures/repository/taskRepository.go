@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"todo-list-api/domains"
 	"todo-list-api/infrastructures/mongo"
@@ -19,9 +20,10 @@ func (tr *taskRepository) Add(c context.Context, task *domains.Task) error {
 	return err
 }
 
-func (tr *taskRepository) FetchByOwner(c context.Context, owner string) ([]domains.Task, error) {
+func (tr *taskRepository) FetchByOwner(c context.Context, owner primitive.ObjectID, page, size int) ([]domains.Task, error) {
 	collection := tr.database.Collection(tr.collection)
-	cursor, err := collection.Find(c, bson.M{"owner": owner}, &options.FindOptions{})
+	opts := options.Find().SetSkip(int64(page * size)).SetLimit(int64(size))
+	cursor, err := collection.Find(c, bson.M{"owner": owner}, opts)
 	if err != nil {
 		return nil, err
 	}
