@@ -6,14 +6,27 @@ import (
 	"time"
 )
 
+const (
+	TaskCollectionName = "tasks"
+)
+
 type Task struct {
 	ID          primitive.ObjectID `json:"-" bson:"_id"`
 	Title       string             `json:"title" bson:"title" binding:"required"`
 	Description string             `json:"description" bson:"description" binding:"required"`
-	Owner       primitive.ObjectID `json:"owner" bson:"owner" binding:"required"`
-	IsCompleted bool               `json:"isCompleted" bson:"isCompleted"`
+	Owner       primitive.ObjectID `json:"owner" bson:"owner"`
+	IsCompleted bool               `json:"isCompleted" bson:"isCompleted" default:"false"`
 	CreatedAt   time.Time          `json:"createdAt" bson:"createdAt"`
 	UpdatedAt   time.Time          `json:"updatedAt" bson:"updatedAt"`
+}
+
+type TaskResponseData struct {
+	ID primitive.ObjectID `json:"id" bson:"_id"`
+}
+
+type TaskResponse struct {
+	Message string           `json:"message"`
+	Data    TaskResponseData `json:"data"`
 }
 
 type TaskRepository interface {
