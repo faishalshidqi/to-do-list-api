@@ -29,6 +29,15 @@ type AddTaskResponse struct {
 	Data    AddTaskResponseData `json:"data"`
 }
 
+type GetTaskResponse struct {
+	Message string              `json:"message"`
+	Data    GetTaskResponseData `json:"data"`
+}
+
+type GetTaskResponseData struct {
+	Tasks []Task `json:"tasks"`
+}
+
 type TaskRepository interface {
 	Add(c context.Context, task *Task) error
 	FetchByOwner(c context.Context, owner string) ([]Task, error)
