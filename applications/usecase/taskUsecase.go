@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 	"todo-list-api/domains"
 )
@@ -48,7 +47,7 @@ func (tu *taskUsecase) Add(c context.Context, task *domains.Task) error {
 	return tu.taskRepository.Add(ctx, task)
 }
 
-func (tu *taskUsecase) FetchByOwner(c context.Context, owner primitive.ObjectID, page, size int) ([]domains.Task, error) {
+func (tu *taskUsecase) FetchByOwner(c context.Context, owner string, page, size string) ([]domains.Task, error) {
 	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
 	defer cancel()
 	return tu.taskRepository.FetchByOwner(ctx, owner, page, size)
