@@ -129,6 +129,22 @@ func (tc *TaskController) GetByOwner(c *gin.Context) {
 	})
 }
 
+// GetById GetTaskById godoc
+//
+//	@Summary		Fetch Task
+//	@Description	Fetch Tasks By ID. Only valid task may get returned
+//	@Tags			tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Bearer Token"
+//	@Param			id				path		string	true	"Task ID"
+//
+//	@Success		200				{object}	domains.GetTaskByIdResponse
+//	@Failure		401				{object}	domains.ErrorResponse
+//	@Failure		403				{object}	domains.ErrorResponse
+//	@Failure		404				{object}	domains.ErrorResponse
+//	@Failure		500				{object}	domains.ErrorResponse
+//	@Router			/api/tasks/{id} [get]
 func (tc *TaskController) GetById(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
 	if err != nil {
