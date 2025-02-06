@@ -17,19 +17,21 @@ definitions:
       message:
         type: string
     type: object
-  domains.GetTaskResponse:
+  domains.GetTaskByIdResponse:
     properties:
       data:
-        $ref: '#/definitions/domains.GetTaskResponseData'
+        $ref: '#/definitions/domains.Task'
       message:
         type: string
     type: object
-  domains.GetTaskResponseData:
+  domains.GetTaskResponse:
     properties:
-      tasks:
+      data:
         items:
           $ref: '#/definitions/domains.Task'
         type: array
+      message:
+        type: string
     type: object
   domains.LoginResponse:
     properties:
@@ -308,6 +310,48 @@ paths:
           schema:
             $ref: '#/definitions/domains.ErrorResponse'
       summary: Add A New Task To DB
+      tags:
+      - tasks
+  /api/tasks/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Fetch Tasks By ID. Only valid task may get returned
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.GetTaskByIdResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Fetch Task
       tags:
       - tasks
 securityDefinitions:
