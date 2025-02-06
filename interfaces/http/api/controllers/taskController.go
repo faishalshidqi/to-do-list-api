@@ -126,8 +126,6 @@ func (tc *TaskController) GetByOwner(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, domains.GetTaskResponse{
 		Message: "Successfully fetched tasks",
-		Data: domains.GetTaskResponseData{
-			Tasks: tasks,
-		},
+		Data:    tasks,
 	})
 }
