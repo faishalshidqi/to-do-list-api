@@ -39,6 +39,11 @@ type GetTaskByIdResponse struct {
 	Data    Task   `json:"data"`
 }
 
+type UpdateTaskResponse struct {
+	Message string `json:"message"`
+	Data    Task   `json:"data"`
+}
+
 type TaskRepository interface {
 	Add(c context.Context, task *Task) error
 	FetchByOwner(c context.Context, owner string, page, size string) ([]Task, error)
