@@ -62,7 +62,22 @@ func (tr *taskRepository) FetchById(c context.Context, id string) (*domains.Task
 
 func (tr *taskRepository) EditById(c context.Context, id string, task *domains.Task) error {
 	collection := tr.database.Collection(tr.collection)
-	_, err := collection.UpdateOne(c, bson.M{"_id": id}, task)
+	oid, err := primitive.ObjectIDFromHex(id)
+	_, err = collection.UpdateOne(
+		c,
+		bson.M{"_id": oid},
+		bson.D{
+			{
+				Key: "$set",
+				Value: bson.D{
+					{"title", task.Title},
+					{"description", task.Description},
+					{"isCompleted", task.IsCompleted},
+					{"updatedAt", task.UpdatedAt},
+				},
+			},
+		},
+	)
 	return err
 }
 
