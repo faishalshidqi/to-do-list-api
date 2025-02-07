@@ -179,3 +179,56 @@ func (tc *TaskController) GetById(c *gin.Context) {
 		Data:    *task,
 	})
 }
+
+func (tc *TaskController) Update(c *gin.Context) {
+	token, err := tokenize.GetBearerToken(c.Request.Header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	userId, err := tokenize.ValidateJWT(token, tc.Env.AccessTokenKey)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	task := &domains.Task{}
+	if err := c.ShouldBind(&task); err != nil {
+		c.JSON(http.StatusBadRequest, domains.ErrorResponse{
+			Message: "Invalid request body",
+		})
+		return
+	}
+	id := c.Param("id")
+	fetchedTask, err := tc.TaskUsecase.FetchById(c, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, domains.ErrorResponse{
+			Message: "Task not found",
+		})
+		return
+	}
+	if userId != fetchedTask.Owner {
+		c.JSON(http.StatusForbidden, domains.ErrorResponse{
+			Message: "You can't see this task",
+		})
+		return
+	}
+	task.UpdatedAt = time.Now()
+	task.CreatedAt = fetchedTask.CreatedAt
+	task.Owner = userId
+	task.ID = fetchedTask.ID
+	err = tc.TaskUsecase.EditById(c, id, task)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domains.UpdateTaskResponse{
+		Message: "Successfully updated task",
+		Data:    *task,
+	})
+}
