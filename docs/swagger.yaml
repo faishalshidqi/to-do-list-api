@@ -224,18 +224,16 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: task's title
-        in: body
+      - description: page number, acting as offset
+        in: query
         name: page
         required: true
-        schema:
-          type: string
-      - description: task's description
-        in: body
+        type: string
+      - description: page size, acting as limit
+        in: query
         name: size
         required: true
-        schema:
-          type: string
+        type: string
       produces:
       - application/json
       responses:
@@ -352,6 +350,69 @@ paths:
           schema:
             $ref: '#/definitions/domains.ErrorResponse'
       summary: Fetch Task
+      tags:
+      - tasks
+    put:
+      consumes:
+      - application/json
+      description: Edit Tasks By ID. Only valid task may be edited
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Title of the task
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: Description of the task
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      - description: whether the task is completed
+        in: body
+        name: isCompleted
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.GetTaskByIdResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Edit Task
       tags:
       - tasks
 securityDefinitions:
