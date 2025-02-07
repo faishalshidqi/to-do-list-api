@@ -309,3 +309,46 @@ func (tc *TaskController) Delete(c *gin.Context) {
 		Message: "Successfully deleted task",
 	})
 }
+
+func (tc *TaskController) MarkAsCompleted(c *gin.Context) {
+	token, err := tokenize.GetBearerToken(c.Request.Header)
+	fmt.Println(token)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	userId, err := tokenize.ValidateJWT(token, tc.Env.AccessTokenKey)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	id := c.Param("id")
+	task, err := tc.TaskUsecase.FetchById(c, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, domains.ErrorResponse{
+			Message: "Task not found",
+		})
+		return
+	}
+	fmt.Println(userId, task.Owner, userId != task.Owner)
+	if userId != task.Owner {
+		c.JSON(http.StatusForbidden, domains.ErrorResponse{
+			Message: "You can't mark this task",
+		})
+		return
+	}
+	err = tc.TaskUsecase.MarkAsCompleted(c, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domains.SuccessResponse{
+		Message: "Successfully marked task as completed",
+	})
+}
