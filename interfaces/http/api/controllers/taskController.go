@@ -83,8 +83,8 @@ func (tc *TaskController) Create(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			Authorization	header		string	true	"Bearer Token"
-//	@Param			page			body		string	true	"task's title"
-//	@Param			size			body		string	true	"task's description"
+//	@Param			page			query		string	true	"page number, acting as offset"
+//	@Param			size			query		string	true	"page size, acting as limit"
 //
 //	@Success		200				{object}	domains.GetTaskResponse
 //	@Failure		400				{object}	domains.ErrorResponse
