@@ -312,7 +312,6 @@ func (tc *TaskController) Delete(c *gin.Context) {
 
 func (tc *TaskController) MarkAsCompleted(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
-	fmt.Println(token)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
 			Message: err.Error(),
