@@ -333,7 +333,6 @@ func (tc *TaskController) MarkAsCompleted(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println(userId, task.Owner, userId != task.Owner)
 	if userId != task.Owner {
 		c.JSON(http.StatusForbidden, domains.ErrorResponse{
 			Message: "You can't mark this task",
