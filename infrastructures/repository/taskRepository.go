@@ -90,7 +90,19 @@ func (tr *taskRepository) DeleteById(c context.Context, id string) error {
 
 func (tr *taskRepository) MarkAsCompleted(c context.Context, id string) error {
 	collection := tr.database.Collection(tr.collection)
-	_, err := collection.UpdateOne(c, bson.M{"_id": id}, bson.M{"isCompleted": true})
+	oid, err := primitive.ObjectIDFromHex(id)
+	_, err = collection.UpdateOne(
+		c,
+		bson.M{"_id": oid},
+		bson.D{
+			{
+				Key: "$set",
+				Value: bson.D{
+					{Key: "isCompleted", Value: true},
+				},
+			},
+		},
+	)
 	return err
 }
 
