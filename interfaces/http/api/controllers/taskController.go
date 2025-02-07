@@ -253,6 +253,22 @@ func (tc *TaskController) Update(c *gin.Context) {
 	})
 }
 
+// Delete DeleteTaskById godoc
+//
+//	@Summary		Delete Task
+//	@Description	Delete Tasks By ID. Only valid task may be deleted
+//	@Tags			tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Bearer Token"
+//	@Param			id				path		string	true	"Task ID"
+//
+//	@Success		200				{object}	domains.GetTaskByIdResponse
+//	@Failure		401				{object}	domains.ErrorResponse
+//	@Failure		403				{object}	domains.ErrorResponse
+//	@Failure		404				{object}	domains.ErrorResponse
+//	@Failure		500				{object}	domains.ErrorResponse
+//	@Router			/api/tasks/{id} [delete]
 func (tc *TaskController) Delete(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
 	if err != nil {
