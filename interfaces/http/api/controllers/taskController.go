@@ -252,3 +252,44 @@ func (tc *TaskController) Update(c *gin.Context) {
 		Data:    *task,
 	})
 }
+
+func (tc *TaskController) Delete(c *gin.Context) {
+	token, err := tokenize.GetBearerToken(c.Request.Header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	userId, err := tokenize.ValidateJWT(token, tc.Env.AccessTokenKey)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	id := c.Param("id")
+	task, err := tc.TaskUsecase.FetchById(c, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, domains.ErrorResponse{
+			Message: "Task not found",
+		})
+		return
+	}
+	if userId != task.Owner {
+		c.JSON(http.StatusForbidden, domains.ErrorResponse{
+			Message: "You can't delete this task",
+		})
+		return
+	}
+	err = tc.TaskUsecase.DeleteById(c, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domains.SuccessResponse{
+		Message: "Successfully deleted task",
+	})
+}
