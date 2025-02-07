@@ -83,7 +83,8 @@ func (tr *taskRepository) EditById(c context.Context, id string, task *domains.T
 
 func (tr *taskRepository) DeleteById(c context.Context, id string) error {
 	collection := tr.database.Collection(tr.collection)
-	_, err := collection.DeleteOne(c, bson.M{"_id": id})
+	oid, err := primitive.ObjectIDFromHex(id)
+	_, err = collection.DeleteOne(c, bson.M{"_id": oid})
 	return err
 }
 
