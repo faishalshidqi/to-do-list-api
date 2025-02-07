@@ -180,6 +180,26 @@ func (tc *TaskController) GetById(c *gin.Context) {
 	})
 }
 
+// Update UpdateTaskById godoc
+//
+//	@Summary		Edit Task
+//	@Description	Edit Tasks By ID. Only valid task may be edited
+//	@Tags			tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Bearer Token"
+//	@Param			id				path		string	true	"Task ID"
+//	@Param			title			body		string	true	"Title of the task"
+//	@Param			description		body		string	true	"Description of the task"
+//	@Param			isCompleted		body		string	true	"whether the task is completed"
+//
+//	@Success		200				{object}	domains.GetTaskByIdResponse
+//	@Failure		400				{object}	domains.ErrorResponse
+//	@Failure		401				{object}	domains.ErrorResponse
+//	@Failure		403				{object}	domains.ErrorResponse
+//	@Failure		404				{object}	domains.ErrorResponse
+//	@Failure		500				{object}	domains.ErrorResponse
+//	@Router			/api/tasks/{id} [put]
 func (tc *TaskController) Update(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
 	if err != nil {
