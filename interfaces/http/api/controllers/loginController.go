@@ -26,7 +26,7 @@ type LoginController struct {
 //	@Failure		400			{object}	domains.ErrorResponse
 //	@Failure		401			{object}	domains.ErrorResponse
 //	@Failure		500			{object}	domains.ErrorResponse
-//	@Router			/api/auth/login [post]
+//	@Router			/api/auth [post]
 func (lc *LoginController) Login(c *gin.Context) {
 	loginRequest := domains.LoginRequest{}
 	if err := c.ShouldBind(&loginRequest); err != nil {

@@ -95,41 +95,6 @@ info:
   version: "1.0"
 paths:
   /api/auth:
-    put:
-      consumes:
-      - application/json
-      description: Generating new access token using a refresh token. Only valid refresh
-        token will generate new
-      parameters:
-      - description: refresh token possessed by the user
-        in: body
-        name: refreshToken
-        required: true
-        schema:
-          type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/domains.RefreshAuthnResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/domains.ErrorResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/domains.ErrorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/domains.ErrorResponse'
-      summary: Refresh Authentication
-      tags:
-      - authentication
-  /api/auth/login:
     post:
       consumes:
       - application/json
@@ -168,6 +133,40 @@ paths:
           schema:
             $ref: '#/definitions/domains.ErrorResponse'
       summary: Login with Email & Password
+      tags:
+      - authentication
+    put:
+      consumes:
+      - application/json
+      description: Generating new access token using a refresh token. Only valid refresh
+        token will generate new
+      parameters:
+      - description: refresh token possessed by the user
+        in: body
+        name: refreshToken
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.RefreshAuthnResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Refresh Authentication
       tags:
       - authentication
   /api/auth/register:
