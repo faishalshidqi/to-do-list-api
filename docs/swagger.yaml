@@ -498,6 +498,46 @@ paths:
       summary: Mark Task as Completed
       tags:
       - tasks
+  /api/tasks/completed:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve Completed Tasks. Only authorized users may see their own
+        tasks
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: page number, acting as offset
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: page size, acting as limit
+        in: query
+        name: size
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.GetTaskResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domains.ErrorResponse'
+      summary: Retrieve Completed Tasks
+      tags:
+      - tasks
 securityDefinitions:
   "":
     in: header
