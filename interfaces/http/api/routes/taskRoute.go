@@ -23,4 +23,5 @@ func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 	group.PUT("/api/tasks/:id", taskController.Update)
 	group.DELETE("/api/tasks/:id", taskController.Delete)
 	group.PUT("/api/tasks/:id/mark", taskController.MarkAsCompleted)
+	group.GET("/api/tasks/completed", taskController.FetchCompletedTasks)
 }
