@@ -367,6 +367,21 @@ func (tc *TaskController) MarkAsCompleted(c *gin.Context) {
 	})
 }
 
+// FetchCompletedTasks GetCompletedTasks godoc
+//
+//	@Summary		Retrieve Completed Tasks
+//	@Description	Retrieve Completed Tasks. Only authorized users may see their own tasks
+//	@Tags			tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"Bearer Token"
+//	@Param			page			query		string	true	"page number, acting as offset"
+//	@Param			size			query		string	true	"page size, acting as limit"
+//
+// @Success		200				{object}	domains.GetTaskResponse
+// @Failure		401				{object}	domains.ErrorResponse
+// @Failure		500				{object}	domains.ErrorResponse
+// @Router			/api/tasks/completed [get]
 func (tc *TaskController) FetchCompletedTasks(c *gin.Context) {
 	token, err := tokenize.GetBearerToken(c.Request.Header)
 	if err != nil {
