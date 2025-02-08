@@ -98,7 +98,10 @@ func (tr *taskRepository) MarkAsCompleted(c context.Context, id string) error {
 			{
 				Key: "$set",
 				Value: bson.D{
-					{Key: "isCompleted", Value: true},
+					{
+						Key:   "isCompleted",
+						Value: true,
+					},
 				},
 			},
 		},

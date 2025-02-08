@@ -61,5 +61,5 @@ type TaskUsecase interface {
 	EditById(c context.Context, id string, task *Task) error
 	DeleteById(c context.Context, id string) error
 	MarkAsCompleted(c context.Context, id string) error
-	FetchCompleted(c context.Context, owner string) ([]Task, error)
+	FetchCompleted(c context.Context, owner string, page, size string) ([]Task, error)
 }

@@ -35,10 +35,10 @@ func (tu *taskUsecase) MarkAsCompleted(c context.Context, id string) error {
 	return tu.taskRepository.MarkAsCompleted(ctx, id)
 }
 
-func (tu *taskUsecase) FetchCompleted(c context.Context, owner string) ([]domains.Task, error) {
+func (tu *taskUsecase) FetchCompleted(c context.Context, owner string, page, size string) ([]domains.Task, error) {
 	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
 	defer cancel()
-	return tu.taskRepository.FetchCompleted(ctx, owner)
+	return tu.taskRepository.FetchCompleted(ctx, owner, page, size)
 }
 
 func (tu *taskUsecase) Add(c context.Context, task *domains.Task) error {
