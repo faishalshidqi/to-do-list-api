@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -364,5 +365,36 @@ func (tc *TaskController) MarkAsCompleted(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, domains.SuccessResponse{
 		Message: "Successfully marked task as completed",
+	})
+}
+
+func (tc *TaskController) FetchCompletedTasks(c *gin.Context) {
+	token, err := tokenize.GetBearerToken(c.Request.Header)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	userId, err := tokenize.ValidateJWT(token, tc.Env.AccessTokenKey)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	page := c.DefaultQuery("page", "0")
+	size := c.DefaultQuery("size", "1")
+	tasks, err := tc.TaskUsecase.FetchCompleted(c, userId.Hex(), page, size)
+	fmt.Printf("controller calling completed tasks: %v+\n", tasks)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
+			Message: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domains.GetTaskResponse{
+		Message: "Successfully fetched completed tasks",
+		Data:    tasks,
 	})
 }
