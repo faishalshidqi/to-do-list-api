@@ -109,10 +109,20 @@ func (tr *taskRepository) MarkAsCompleted(c context.Context, id string) error {
 	return err
 }
 
-func (tr *taskRepository) FetchCompleted(c context.Context, owner string) ([]domains.Task, error) {
+func (tr *taskRepository) FetchCompleted(c context.Context, owner string, page, size string) ([]domains.Task, error) {
 	collection := tr.database.Collection(tr.collection)
-	opts := options.Find().SetSort(bson.D{{Key: "isCompleted", Value: 1}})
-	cursor, err := collection.Find(c, bson.M{"owner": owner}, opts)
+	convPage, err := strconv.Atoi(page)
+	if err != nil {
+		return nil, err
+	}
+	convSize, err := strconv.Atoi(size)
+	if err != nil {
+		return nil, err
+	}
+
+	opts := options.Find().SetSkip(int64(convPage * convSize)).SetLimit(int64(convSize))
+	oid, err := primitive.ObjectIDFromHex(owner)
+	cursor, err := collection.Find(c, bson.M{"owner": oid, "isCompleted": true}, opts)
 	if err != nil {
 		return nil, err
 	}
