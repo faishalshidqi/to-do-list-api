@@ -48,7 +48,7 @@ func (ur userRepository) GetByEmail(c context.Context, email string) (domains.Us
 func (ur userRepository) GetByID(c context.Context, id primitive.ObjectID) (domains.User, error) {
 	collection := ur.database.Collection(ur.collection)
 	user := domains.User{}
-	err := collection.FindOne(c, bson.M{"id": id}).Decode(&user)
+	err := collection.FindOne(c, bson.M{"_id": id}).Decode(&user)
 	if err != nil {
 		return domains.User{}, err
 	}
