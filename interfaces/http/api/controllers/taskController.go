@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -386,7 +385,6 @@ func (tc *TaskController) FetchCompletedTasks(c *gin.Context) {
 	page := c.DefaultQuery("page", "0")
 	size := c.DefaultQuery("size", "1")
 	tasks, err := tc.TaskUsecase.FetchCompleted(c, userId.Hex(), page, size)
-	fmt.Printf("controller calling completed tasks: %v+\n", tasks)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domains.ErrorResponse{
 			Message: err.Error(),
