@@ -65,9 +65,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/auth/login": {
+            },
             "post": {
                 "description": "authenticate user",
                 "consumes": [
